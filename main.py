@@ -26,7 +26,7 @@ busy = digitalio.DigitalInOut(board.D17)
 
 # You'll need to get a token from openweathermap.org, looks like:
 # 'b6907d289e10d714a6e88b30761fae22'
-OPEN_WEATHER_TOKEN = ""
+OPEN_WEATHER_TOKEN = "04035f801b9bb9a9757a6378dbbe7444"
 
 # Use cityname, country code where countrycode is ISO3166 format.
 # E.g. "New York, US" or "London, GB"

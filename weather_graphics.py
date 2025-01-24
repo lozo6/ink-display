@@ -102,7 +102,7 @@ class Weather_Graphics:
         draw = ImageDraw.Draw(image)
 
         # Draw the Icon
-        (font_width, font_height) = icon_font.getsize(self._weather_icon)
+        (font_width, font_height) = icon_font.getsize(self._weather_icon)[2:4]
         draw.text(
             (
                 self.display.width // 2 - font_width // 2,
