@@ -17,6 +17,8 @@ from adafruit_epd.ssd1675 import Adafruit_SSD1675
 from adafruit_epd.ssd1680 import Adafruit_SSD1680
 from adafruit_epd.ssd1680 import Adafruit_SSD1680Z
 from weather_graphics import Weather_Graphics
+from dotenv import load_dotenv
+import os
 
 spi = busio.SPI(board.SCK, MOSI=board.MOSI, MISO=board.MISO)
 ecs = digitalio.DigitalInOut(board.CE0)
@@ -24,9 +26,12 @@ dc = digitalio.DigitalInOut(board.D22)
 rst = digitalio.DigitalInOut(board.D27)
 busy = digitalio.DigitalInOut(board.D17)
 
+# Load environment variables from .env file
+load_dotenv()
+
 # You'll need to get a token from openweathermap.org, looks like:
 # 'b6907d289e10d714a6e88b30761fae22'
-OPEN_WEATHER_TOKEN = ""
+OPEN_WEATHER_TOKEN = os.getenv("OPEN_WEATHER_TOKEN")
 
 # Use cityname, country code where countrycode is ISO3166 format.
 # E.g. "New York, US" or "London, GB"
