@@ -4,6 +4,7 @@ import urllib.parse
 import digitalio
 import busio
 import board
+from adafruit_epd.epd import Adafruit_EPD
 from adafruit_epd.ssd1680 import Adafruit_SSD1680
 
 spi = busio.SPI(board.SCK, MOSI=board.MOSI, MISO=board.MISO)
