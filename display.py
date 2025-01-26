@@ -8,11 +8,11 @@ from adafruit_epd.epd import Adafruit_EPD
 from adafruit_epd.ssd1680 import Adafruit_SSD1680
 
 spi = busio.SPI(board.SCK, MOSI=board.MOSI, MISO=board.MISO)
-ecs = digitalio.DigitalInOut(board.D12)
-dc = digitalio.DigitalInOut(board.D11)
-srcs = digitalio.DigitalInOut(board.D10)
-rst = digitalio.DigitalInOut(board.D9)
-busy = digitalio.DigitalInOut(board.D5)
+ecs = digitalio.DigitalInOut(board.CE0)
+dc = digitalio.DigitalInOut(board.D22)
+rst = digitalio.DigitalInOut(board.D27)
+busy = digitalio.DigitalInOut(board.D17)
+srcs = None
 
 print("Creating display")
 display = Adafruit_SSD1680(122, 250, spi, cs_pin=ecs, dc_pin=dc, sramcs_pin=srcs,
