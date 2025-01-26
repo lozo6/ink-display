@@ -18,8 +18,6 @@ print("Creating display")
 display = Adafruit_SSD1680(122, 250, spi, cs_pin=ecs, dc_pin=dc, sramcs_pin=srcs,
                           rst_pin=rst, busy_pin=busy)
 
-display.rotation = 1
-
 # clear the buffer
 print("Clear buffer")
 display.fill(Adafruit_EPD.WHITE)
