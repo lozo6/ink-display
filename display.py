@@ -23,6 +23,12 @@ from adafruit_epd.uc8151d import Adafruit_UC8151D  # pylint: disable=unused-impo
 from adafruit_epd.ek79686 import Adafruit_EK79686  # pylint: disable=unused-import
 from adafruit_epd.ssd1680 import Adafruit_SSD1680Z
 
+# Next define some constants to allow easy resizing of shapes and colors
+BORDER = 20
+FONTSIZE = 24
+BACKGROUND_COLOR = BLACK
+FOREGROUND_COLOR = WHITE
+TEXT_COLOR = RED
 
 # create the spi device and pins we will need
 spi = busio.SPI(board.SCK, MOSI=board.MOSI, MISO=board.MISO)
@@ -63,26 +69,61 @@ display = Adafruit_SSD1680Z(122, 250,        # 2.13" HD Tri-color or mono displa
 
 display.rotation = 1
 
-image = Image.open("blinka.png")
+# ---
 
-# Scale the image to the smaller screen dimension
-image_ratio = image.width / image.height
-screen_ratio = display.width / display.height
-if screen_ratio < image_ratio:
-    scaled_width = image.width * display.height // image.height
-    scaled_height = display.height
-else:
-    scaled_width = display.width
-    scaled_height = image.height * display.width // image.width
-image = image.resize((scaled_width, scaled_height), Image.BICUBIC)
+# image = Image.open("blinka.png")
 
-# Crop and center the image
-x = scaled_width // 2 - display.width // 2
-y = scaled_height // 2 - display.height // 2
-image = image.crop((x, y, x + display.width, y + display.height)).convert("RGB")
+# # Scale the image to the smaller screen dimension
+# image_ratio = image.width / image.height
+# screen_ratio = display.width / display.height
+# if screen_ratio < image_ratio:
+#     scaled_width = image.width * display.height // image.height
+#     scaled_height = display.height
+# else:
+#     scaled_width = display.width
+#     scaled_height = image.height * display.width // image.width
+# image = image.resize((scaled_width, scaled_height), Image.BICUBIC)
 
-# Convert to Monochrome and Add dithering
-image = image.convert("1").convert("L")
+# # Crop and center the image
+# x = scaled_width // 2 - display.width // 2
+# y = scaled_height // 2 - display.height // 2
+# image = image.crop((x, y, x + display.width, y + display.height)).convert("RGB")
+
+# # Convert to Monochrome and Add dithering
+# image = image.convert("1").convert("L")
+
+# # Display image.
+# display.image(image)
+# display.display()
+
+# ---
+
+image = Image.new("RGB", (display.width, display.height))
+
+# Get drawing object to draw on image.
+draw = ImageDraw.Draw(image)
+
+# Draw a filled box as the background
+draw.rectangle((0, 0, display.width - 1, display.height - 1), fill=BACKGROUND_COLOR)
+
+# Draw a smaller inner foreground rectangle
+draw.rectangle(
+    (BORDER, BORDER, display.width - BORDER - 1, display.height - BORDER - 1),
+    fill=FOREGROUND_COLOR,
+)
+
+# Load a TTF Font
+font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", FONTSIZE)
+
+# Draw Some Text
+text = "Hello World!"
+(font_width, font_height) = font.getsize(text)
+draw.text(
+    (display.width // 2 - font_width // 2, display.height // 2 - font_height // 2),
+    text,
+    font=font,
+    fill=TEXT_COLOR,
+)
 
 # Display image.
 display.image(image)
