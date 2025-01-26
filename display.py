@@ -23,6 +23,11 @@ from adafruit_epd.uc8151d import Adafruit_UC8151D  # pylint: disable=unused-impo
 from adafruit_epd.ek79686 import Adafruit_EK79686  # pylint: disable=unused-import
 from adafruit_epd.ssd1680 import Adafruit_SSD1680Z
 
+# First define some color constants
+WHITE = (0xFF, 0xFF, 0xFF)
+BLACK = (0x00, 0x00, 0x00)
+RED = (0xFF, 0x00, 0x00)
+
 # Next define some constants to allow easy resizing of shapes and colors
 BORDER = 20
 FONTSIZE = 24
