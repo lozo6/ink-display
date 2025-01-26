@@ -14,7 +14,7 @@ rst = digitalio.DigitalInOut(board.D27)
 busy = digitalio.DigitalInOut(board.D17)
 srcs = None
 
-display = Adafruit_SSD1680(122, 250, spi, cs_pin=ecs, dc_pin=dc, sramcs_pin=srcs,
+display = Adafruit_SSD1680(120, 250, spi, cs_pin=ecs, dc_pin=dc, sramcs_pin=srcs,
                           rst_pin=rst, busy_pin=busy)
 display.fill(Adafruit_EPD.WHITE)
 
@@ -29,8 +29,9 @@ up_button.switch_to_input()
 down_button = digitalio.DigitalInOut(board.D6)
 down_button.switch_to_input()
 
-if not up_button.value:
-    print("Up Button Pushed")
+while True:
+    if not up_button.value:
+        print("Up Button Pushed")
 
-if not down_button.value:
-    print("Down Button Pushed")
+    if not down_button.value:
+        print("Down Button Pushed")
