@@ -11,7 +11,7 @@ https://learn.adafruit.com/adafruit-eink-display-breakouts/python-code
 import digitalio
 import busio
 import board
-from PIL import Image
+from PIL import Image, ImageDraw, ImageFont
 from adafruit_epd.il0373 import Adafruit_IL0373
 from adafruit_epd.il91874 import Adafruit_IL91874  # pylint: disable=unused-import
 from adafruit_epd.il0398 import Adafruit_IL0398  # pylint: disable=unused-import
