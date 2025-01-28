@@ -31,7 +31,7 @@ BORDER = 20
 FONTSIZE = 24
 BACKGROUND_COLOR = BLACK
 FOREGROUND_COLOR = WHITE
-TEXT_COLOR = RED
+TEXT_COLOR = BLACK
 
 # create the spi device and pins we will need
 spi = busio.SPI(board.SCK, MOSI=board.MOSI, MISO=board.MISO)
