@@ -91,7 +91,9 @@ font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", FON
 
 # Draw Some Text
 text = "Hello World!"
-(font_width, font_height) = font.getlength(text)
+bbox = font.getbbox(text)  # Get bounding box (left, top, right, bottom)
+font_width = bbox[2] - bbox[0]  # width of the text
+font_height = bbox[3] - bbox[1]  # height of the text
 draw.text(
     (display.width // 2 - font_width // 2, display.height // 2 - font_height // 2),
     text,
