@@ -26,8 +26,8 @@ down_button = digitalio.DigitalInOut(board.D6)
 down_button.switch_to_input(pull=digitalio.Pull.UP)  # Use pull-up resistor
 
 while True:
-    if not up_button.value:
-        print("Up Button Pushed")
+    if not digitalio.DigitalInOut(board.D5).value:
+        print("D5 Button Pressed")
 
-    if not down_button.value:
-        print("Down Button Pushed")
+    if not digitalio.DigitalInOut(board.D6).value:
+        print("D6 Button Pressed")
