@@ -95,7 +95,7 @@ bbox = font.getbbox(text)  # Get bounding box (left, top, right, bottom)
 font_width = bbox[2] - bbox[0]  # width of the text
 font_height = bbox[3] - bbox[1]  # height of the text
 draw.text(
-    (display.width // 2 - font_width // 2, display.height // 2 - font_height // 2),
+    (display.width // 4 - font_width // 4, display.height // 4 - font_height // 4),
     text,
     font=font,
     fill=TEXT_COLOR,
