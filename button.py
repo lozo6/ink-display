@@ -21,9 +21,9 @@ display = Adafruit_SSD1680Z(122, 250,        # 2.13" HD Tri-color or mono displa
 )
 
 up_button = digitalio.DigitalInOut(board.D5)
-up_button.switch_to_input()
+up_button.switch_to_input(pull=digitalio.Pull.UP)  # Use pull-up resistor
 down_button = digitalio.DigitalInOut(board.D6)
-down_button.switch_to_input()
+down_button.switch_to_input(pull=digitalio.Pull.UP)  # Use pull-up resistor
 
 while True:
     if not up_button.value:
