@@ -78,11 +78,11 @@ image = Image.new("RGB", (display.width, display.height))
 draw = ImageDraw.Draw(image)
 
 # Draw a filled box as the background
-draw.rectangle((0, 0, display.width - .5, display.height - .5), fill=BACKGROUND_COLOR)
+draw.rectangle((0, 0, display.width - 1, display.height - 1), fill=BACKGROUND_COLOR)
 
 # Draw a smaller inner foreground rectangle
 draw.rectangle(
-    (BORDER, BORDER, display.width - BORDER - .5, display.height - BORDER - .5),
+    (BORDER, BORDER, display.width - BORDER - 1, display.height - BORDER - 1),
     fill=FOREGROUND_COLOR,
 )
 
@@ -90,7 +90,7 @@ draw.rectangle(
 font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", FONTSIZE)
 
 # Draw Some Text
-text = "Hello World!"
+text = "Will you be my Valentine?"
 bbox = font.getbbox(text)  # Get bounding box (left, top, right, bottom)
 font_width = bbox[2] - bbox[0]  # width of the text
 font_height = bbox[3] - bbox[1]  # height of the text
