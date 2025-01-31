@@ -17,8 +17,6 @@ from adafruit_epd.ssd1675 import Adafruit_SSD1675
 from adafruit_epd.ssd1680 import Adafruit_SSD1680
 from adafruit_epd.ssd1680 import Adafruit_SSD1680Z
 from weather_graphics import Weather_Graphics
-from dotenv import load_dotenv
-import os
 
 spi = busio.SPI(board.SCK, MOSI=board.MOSI, MISO=board.MISO)
 ecs = digitalio.DigitalInOut(board.CE0)
