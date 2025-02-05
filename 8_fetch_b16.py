@@ -6,8 +6,8 @@ from bus_graphics import BusGraphics
 display_manager = DisplayManager()
 display = display_manager.get_display()
 
-# Create MTABusGraphics instance
-bus_graphics = MTABusGraphics(display)
+# Create BusGraphics instance
+bus_graphics = BusGraphics(display)
 
 while True:
     bus_graphics.fetch_bus_data()
