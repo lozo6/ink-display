@@ -35,6 +35,8 @@ class BusGraphics:
         except requests.exceptions.HTTPError as e:
             if response.status_code == 401:
                 print("Error 401: Unauthorized - Check your API key.")
+            elif response.status_code == 403:
+                print("Error 403: Forbidden - API key may not have access.")
             else:
                 print(f"HTTP Error: {e}")
             self._arrival_time = "No data available"
@@ -68,13 +70,14 @@ class BusGraphics:
         self._time_text = now.strftime("%I:%M %p").lstrip("0").replace(" 0", " ")
 
     def update_display(self):
-        """Updates the e-ink display with bus data."""
+        """Updates the e-ink display with bus data in a structured format."""
         self.display.fill(Adafruit_EPD.WHITE)
         image = Image.new("RGB", (self.display.width, self.display.height), color=WHITE)
         draw = ImageDraw.Draw(image)
 
         draw.text((5, 5), self._bus_name, font=medium_font, fill=BLACK)
-        draw.text((5, 30), f"Arrival: {self._arrival_time}", font=large_font, fill=BLACK)
+        draw.text((5, 30), "Arrival:", font=large_font, fill=BLACK)
+        draw.text((5, 60), self._arrival_time, font=large_font, fill=BLACK)
 
         font_width, font_height = medium_font.getsize(self._time_text)
         draw.text((self.display.width - font_width - 5, self.display.height - font_height - 5), self._time_text, font=medium_font, fill=BLACK)
