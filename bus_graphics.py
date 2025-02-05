@@ -77,7 +77,7 @@ class BusGraphics:
 
         draw.text((5, 5), self._bus_name, font=medium_font, fill=BLACK)
         draw.text((5, 30), "Arrival:", font=large_font, fill=BLACK)
-        draw.text((5, 60), self._arrival_time, font=large_font, fill=BLACK)
+        draw.text((5, 60), self._arrival_time, font=medium_font, fill=BLACK)
 
         font_width, font_height = medium_font.getsize(self._time_text)
         draw.text((self.display.width - font_width - 5, self.display.height - font_height - 5), self._time_text, font=medium_font, fill=BLACK)
