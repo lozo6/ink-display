@@ -5,7 +5,7 @@ import board
 from adafruit_epd.ssd1675 import Adafruit_SSD1675
 from adafruit_epd.ssd1680 import Adafruit_SSD1680
 from adafruit_epd.ssd1680 import Adafruit_SSD1680Z
-from train_graphics import Train_Graphics
+from subway_graphics import Subway_Graphics
 
 spi = busio.SPI(board.SCK, MOSI=board.MOSI, MISO=board.MISO)
 ecs = digitalio.DigitalInOut(board.CE0)
@@ -20,10 +20,10 @@ display = Adafruit_SSD1680Z(
 
 display.rotation = 3
 
-train_graphics = Train_Graphics(display)
+subway_graphics = Subway_Graphics(display)
 
 while True:
-    train_graphics.fetch_train_data()
-    train_graphics.update_time()
-    train_graphics.update_display()
+    subway_graphics.fetch_subway_data()
+    subway_graphics.update_time()
+    subway_graphics.update_display()
     time.sleep(60)  # Refresh every minute
