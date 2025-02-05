@@ -1,6 +1,3 @@
-# SPDX-FileCopyrightText: 2024 Your Name
-# SPDX-License-Identifier: MIT
-
 import os
 import time
 from dotenv import load_dotenv
