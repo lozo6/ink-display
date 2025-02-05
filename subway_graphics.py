@@ -16,16 +16,16 @@ large_font = ImageFont.truetype(
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 
-class Train_Graphics:
+class Subway_Graphics:
     def __init__(self, display):
         self.display = display
 
-        self._train_name = None
+        self._subway_name = None
         self._station_name = None
         self._arrival_time = None
         self._time_text = None
 
-    def fetch_train_data(self):
+    def fetch_subway_data(self):
         url = "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-nqrw"
 
         try:
@@ -42,8 +42,8 @@ class Train_Graphics:
             print(f"Failed to parse GTFS feed: {e}")
             return
 
-        FORT_HAMILTON_STOP_ID = "N03N"  # Stop ID for northbound N train at Fort Hamilton
-        TARGET_ROUTE_ID = "N"  # Route ID for the N train
+        FORT_HAMILTON_STOP_ID = "N03N"  # Stop ID for northbound N subway at Fort Hamilton
+        TARGET_ROUTE_ID = "N"  # Route ID for the N subway
 
         current_time = datetime.now()
 
@@ -62,13 +62,13 @@ class Train_Graphics:
                                     closest_arrival = arrival_time
 
         if closest_arrival:
-            self._train_name = "N Train"
+            self._subway_name = "N subway"
             self._station_name = "Fort Hamilton Station"
             self._arrival_time = closest_arrival.strftime('%I:%M %p')
         else:
-            self._train_name = "N Train"
+            self._subway_name = "N subway"
             self._station_name = "Fort Hamilton Station"
-            self._arrival_time = "No upcoming trains"
+            self._arrival_time = "No upcoming subways"
 
     def update_time(self):
         now = datetime.now()
@@ -79,8 +79,8 @@ class Train_Graphics:
         image = Image.new("RGB", (self.display.width, self.display.height), color=WHITE)
         draw = ImageDraw.Draw(image)
 
-        # Draw the train name
-        draw.text((5, 5), self._train_name, font=medium_font, fill=BLACK)
+        # Draw the subway name
+        draw.text((5, 5), self._subway_name, font=medium_font, fill=BLACK)
 
         # Draw the station name
         draw.text((5, 25), self._station_name, font=small_font, fill=BLACK)
