@@ -26,13 +26,18 @@ display.display()
 # Function to fetch stock data
 def get_stock_price(symbol):
     url = f"https://query1.finance.yahoo.com/v7/finance/quote?symbols={symbol}"
-    response = requests.get(url)
-    data = response.json()
+    try:
+        response = requests.get(url, timeout=5)
+        response.raise_for_status()  # Raise error if request fails
+        data = response.json()
 
-    if "quoteResponse" in data and "result" in data["quoteResponse"]:
-        stock = data["quoteResponse"]["result"][0]
-        return stock["symbol"], stock["regularMarketPrice"], stock["regularMarketChangePercent"]
+        if "quoteResponse" in data and "result" in data["quoteResponse"] and data["quoteResponse"]["result"]:
+            stock = data["quoteResponse"]["result"][0]
+            return stock.get("symbol"), stock.get("regularMarketPrice", 0), stock.get("regularMarketChangePercent", 0)
+    except (requests.RequestException, KeyError, IndexError):
+        print("Failed to fetch stock data.")
     return None, None, None
+
 
 # Function to display stock data
 def display_stock(symbol):
