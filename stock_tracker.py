@@ -73,5 +73,5 @@ def display_stock(symbol):
         print("Failed to fetch stock data.")
 
 # Run the script with a stock symbol
-stock_ticker = "AAPL"  # Change to your preferred stock
+stock_ticker = "NVDA"  # Change to your preferred stock
 display_stock(stock_ticker)
