@@ -1,6 +1,3 @@
-# SPDX-FileCopyrightText: 2024 Your Name
-# SPDX-License-Identifier: MIT
-
 import os
 import requests
 from datetime import datetime, timezone
@@ -36,6 +33,14 @@ class BusGraphics:
             response.raise_for_status()
             data = response.json()
             self.process_bus_data(data)
+        except requests.exceptions.HTTPError as e:
+            if response.status_code == 401:
+                print("Error 401: Unauthorized - Check your API key.")
+            elif response.status_code == 403:
+                print("Error 403: Forbidden - API key may not have access.")
+            else:
+                print(f"HTTP Error: {e}")
+            self._arrival_time = "No data available"
         except requests.exceptions.RequestException as e:
             print(f"Failed to fetch bus data: {e}")
             self._arrival_time = "No data available"
@@ -43,7 +48,7 @@ class BusGraphics:
     def process_bus_data(self, data):
         """Processes bus API response and finds the next arrival time."""
         try:
-            stop_monitoring = data["Siri"]["ServiceDelivery"]["StopMonitoringDelivery"][0]
+            stop_monitoring = data["Siri"]["ServiceDelivery"].get("StopMonitoringDelivery", [{}])[0]
             monitored_stop_visits = stop_monitoring.get("MonitoredStopVisit", [])
             closest_arrival = None
             current_time = datetime.now(timezone.utc)
@@ -57,7 +62,7 @@ class BusGraphics:
                     closest_arrival = arrival_time
 
             self._arrival_time = closest_arrival.strftime('%I:%M %p') if closest_arrival else "No upcoming buses"
-        except KeyError:
+        except (KeyError, IndexError):
             self._arrival_time = "Parsing error"
 
     def update_time(self):
