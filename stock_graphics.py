@@ -7,6 +7,7 @@ from PIL import Image, ImageDraw, ImageFont
 import adafruit_epd.epd as epd
 from adafruit_epd.ssd1680 import Adafruit_SSD1680Z
 
+
 class Stock_Graphics:
     """Fetches and displays stock market data on e-ink display."""
 
@@ -15,7 +16,9 @@ class Stock_Graphics:
         self.api_key = api_key
         self.image = Image.new("1", (display.width, display.height), 255).convert("L")
         self.draw = ImageDraw.Draw(self.image)
-        self.font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 20)
+        self.font = ImageFont.truetype(
+            "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 20
+        )
 
     def get_stock_price(self, symbol):
         """Fetch stock price from Alpha Vantage API."""
@@ -27,7 +30,11 @@ class Stock_Graphics:
 
             if "Global Quote" in data:
                 stock = data["Global Quote"]
-                return stock.get("01. symbol"), float(stock.get("05. price", 0)), float(stock.get("10. change percent", "0%").strip('%'))
+                return (
+                    stock.get("01. symbol"),
+                    float(stock.get("05. price", 0)),
+                    float(stock.get("10. change percent", "0%").strip("%")),
+                )
         except (requests.RequestException, KeyError, IndexError, ValueError):
             print("Failed to fetch stock data.")
         return None, None, None
@@ -39,7 +46,9 @@ class Stock_Graphics:
         if stock_symbol:
             self.draw.text((10, 10), f"{stock_symbol}", font=self.font, fill=0)
             self.draw.text((10, 40), f"Price: ${price:.2f}", font=self.font, fill=0)
-            self.draw.text((10, 70), f"Change: {change_percent:.2f}%", font=self.font, fill=0)
+            self.draw.text(
+                (10, 70), f"Change: {change_percent:.2f}%", font=self.font, fill=0
+            )
 
             # Update e-ink display
             self.display.image(self.image)

@@ -8,7 +8,9 @@ load_dotenv()
 
 # Constants
 API_URL = "http://bustime.mta.info/api/siri/stop-monitoring.json"
-API_KEY = os.getenv("MTA_BUS_TOKEN")  # Using os to get the MTA_BUS_TOKEN from the environment
+API_KEY = os.getenv(
+    "MTA_BUS_TOKEN"
+)  # Using os to get the MTA_BUS_TOKEN from the environment
 STOP_ID = "301623"  # Stop ID for which you want to fetch data
 
 
@@ -31,19 +33,27 @@ def fetch_bus_data(api_url: str, api_key: str, stop_id: str) -> dict:
 def get_monitored_stop_visits(data: dict) -> list:
     """Extract monitored stop visits from the API response."""
     try:
-        stop_monitoring_delivery = data["Siri"]["ServiceDelivery"]["StopMonitoringDelivery"]
+        stop_monitoring_delivery = data["Siri"]["ServiceDelivery"][
+            "StopMonitoringDelivery"
+        ]
         return stop_monitoring_delivery[0].get("MonitoredStopVisit", [])
     except KeyError:
         print("Error parsing bus time data: Missing expected keys")
         exit(1)
 
 
-def find_closest_arrival(monitored_stop_visits: list, current_time: datetime) -> datetime:
+def find_closest_arrival(
+    monitored_stop_visits: list, current_time: datetime
+) -> datetime:
     """Find the closest arrival time from the list of monitored stop visits."""
     closest_arrival = None
 
     for visit in monitored_stop_visits:
-        expected_arrival_time = visit.get("MonitoredVehicleJourney", {}).get("MonitoredCall", {}).get("ExpectedArrivalTime")
+        expected_arrival_time = (
+            visit.get("MonitoredVehicleJourney", {})
+            .get("MonitoredCall", {})
+            .get("ExpectedArrivalTime")
+        )
 
         if not expected_arrival_time:
             continue  # Skip if arrival time is missing
@@ -53,7 +63,9 @@ def find_closest_arrival(monitored_stop_visits: list, current_time: datetime) ->
         arrival_time = datetime.fromisoformat(normalized_time)  # Parse with timezone
 
         # Check if the arrival time is after the current time
-        if arrival_time > current_time and (closest_arrival is None or arrival_time < closest_arrival):
+        if arrival_time > current_time and (
+            closest_arrival is None or arrival_time < closest_arrival
+        ):
             closest_arrival = arrival_time
 
     return closest_arrival
@@ -63,7 +75,7 @@ def display_arrival_time(closest_arrival: datetime):
     """Display the next bus arrival time."""
     print("Next B16 Arrival Time")
     if closest_arrival:
-        print(closest_arrival.strftime('%I:%M %p'))  # Format as HH:MM AM/PM
+        print(closest_arrival.strftime("%I:%M %p"))  # Format as HH:MM AM/PM
     else:
         print("No upcoming buses found.")
 

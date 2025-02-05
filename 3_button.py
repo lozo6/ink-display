@@ -12,7 +12,9 @@ srcs = digitalio.DigitalInOut(board.D10)  # can be None to use internal memory
 rst = digitalio.DigitalInOut(board.D9)  # can be None to not use this pin
 busy = digitalio.DigitalInOut(board.D5)  # can be None to not use this pin
 
-display = Adafruit_SSD1680(122, 250,        # 2.13" HD Tri-color or mono display
+display = Adafruit_SSD1680(
+    122,
+    250,  # 2.13" HD Tri-color or mono display
     spi,
     cs_pin=ecs,
     dc_pin=dc,

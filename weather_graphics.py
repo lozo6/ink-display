@@ -115,7 +115,10 @@ class Weather_Graphics:
 
         # Draw the city
         draw.text(
-            (5, 5), self._city_name, font=self.medium_font, fill=BLACK,
+            (5, 5),
+            self._city_name,
+            font=self.medium_font,
+            fill=BLACK,
         )
 
         # Draw the time

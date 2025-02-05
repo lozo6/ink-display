@@ -9,20 +9,28 @@ from PIL import Image, ImageDraw, ImageFont
 from adafruit_epd.epd import Adafruit_EPD
 
 # Load fonts
-small_font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 16)
+small_font = ImageFont.truetype(
+    "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 16
+)
 medium_font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 20)
-large_font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 24)
+large_font = ImageFont.truetype(
+    "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 24
+)
 
 # RGB Colors
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
+
 
 class Subway_Graphics:
     """Fetches and displays subway arrival times on an e-ink display."""
 
     def __init__(self, display):
         self.display = display
-        self.api_url = os.getenv("MTA_GTFS_URL", "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-nqrw")
+        self.api_url = os.getenv(
+            "MTA_GTFS_URL",
+            "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-nqrw",
+        )
 
         # Initialize subway info placeholders
         self._subway_name = "N Subway"
@@ -49,7 +57,9 @@ class Subway_Graphics:
             self._arrival_time = "No data available"
             return
 
-        FORT_HAMILTON_STOP_ID = "N03N"  # Stop ID for northbound N subway at Fort Hamilton
+        FORT_HAMILTON_STOP_ID = (
+            "N03N"  # Stop ID for northbound N subway at Fort Hamilton
+        )
         TARGET_ROUTE_ID = "N"
 
         current_time = datetime.now()
@@ -61,13 +71,22 @@ class Subway_Graphics:
                 if trip.route_id == TARGET_ROUTE_ID:
                     for stop_time_update in entity.trip_update.stop_time_update:
                         if stop_time_update.stop_id == FORT_HAMILTON_STOP_ID:
-                            arrival_time = datetime.fromtimestamp(stop_time_update.arrival.time)
+                            arrival_time = datetime.fromtimestamp(
+                                stop_time_update.arrival.time
+                            )
 
                             if arrival_time > current_time:
-                                if closest_arrival is None or arrival_time < closest_arrival:
+                                if (
+                                    closest_arrival is None
+                                    or arrival_time < closest_arrival
+                                ):
                                     closest_arrival = arrival_time
 
-        self._arrival_time = closest_arrival.strftime('%I:%M %p') if closest_arrival else "No upcoming subways"
+        self._arrival_time = (
+            closest_arrival.strftime("%I:%M %p")
+            if closest_arrival
+            else "No upcoming subways"
+        )
 
     def update_time(self):
         """Updates the current time display."""
@@ -83,12 +102,21 @@ class Subway_Graphics:
         # Display text
         draw.text((5, 5), self._subway_name, font=medium_font, fill=BLACK)
         draw.text((5, 25), self._station_name, font=small_font, fill=BLACK)
-        draw.text((5, 50), f"Arrival: {self._arrival_time}", font=large_font, fill=BLACK)
+        draw.text(
+            (5, 50), f"Arrival: {self._arrival_time}", font=large_font, fill=BLACK
+        )
 
         # Draw current time at bottom right
         font_width, font_height = medium_font.getsize(self._time_text)
-        draw.text((self.display.width - font_width - 5, self.display.height - font_height - 5),
-                  self._time_text, font=medium_font, fill=BLACK)
+        draw.text(
+            (
+                self.display.width - font_width - 5,
+                self.display.height - font_height - 5,
+            ),
+            self._time_text,
+            font=medium_font,
+            fill=BLACK,
+        )
 
         self.display.image(image)
         self.display.display()

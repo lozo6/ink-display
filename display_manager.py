@@ -3,6 +3,7 @@ import busio
 import digitalio
 from adafruit_epd.ssd1680 import Adafruit_SSD1680Z
 
+
 class DisplayManager:
     """Manages SPI and e-ink display initialization for all modules."""
 
@@ -15,8 +16,16 @@ class DisplayManager:
         self.busy = digitalio.DigitalInOut(board.D17)
 
         # Initialize the e-ink display
-        self.display = Adafruit_SSD1680Z(122, 250, self.spi, cs_pin=self.ecs, dc_pin=self.dc,
-                                         sramcs_pin=None, rst_pin=self.rst, busy_pin=self.busy)
+        self.display = Adafruit_SSD1680Z(
+            122,
+            250,
+            self.spi,
+            cs_pin=self.ecs,
+            dc_pin=self.dc,
+            sramcs_pin=None,
+            rst_pin=self.rst,
+            busy_pin=self.busy,
+        )
         self.display.rotation = rotation
 
     def get_display(self):

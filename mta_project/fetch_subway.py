@@ -25,7 +25,9 @@ def fetch_gtfs_feed(url: str) -> gtfs_realtime_pb2.FeedMessage:
         exit(1)
 
 
-def get_closest_train_arrival(feed: gtfs_realtime_pb2.FeedMessage, target_route_id: str, stop_id: str) -> datetime:
+def get_closest_train_arrival(
+    feed: gtfs_realtime_pb2.FeedMessage, target_route_id: str, stop_id: str
+) -> datetime:
     """Find the closest upcoming train arrival time."""
     current_time = datetime.now()
     closest_arrival = None
@@ -36,11 +38,16 @@ def get_closest_train_arrival(feed: gtfs_realtime_pb2.FeedMessage, target_route_
             if trip.route_id == target_route_id:
                 for stop_time_update in entity.trip_update.stop_time_update:
                     if stop_time_update.stop_id == stop_id:
-                        arrival_time = datetime.fromtimestamp(stop_time_update.arrival.time)
+                        arrival_time = datetime.fromtimestamp(
+                            stop_time_update.arrival.time
+                        )
 
                         # Only consider future arrival times
                         if arrival_time > current_time:
-                            if closest_arrival is None or arrival_time < closest_arrival:
+                            if (
+                                closest_arrival is None
+                                or arrival_time < closest_arrival
+                            ):
                                 closest_arrival = arrival_time
     return closest_arrival
 
@@ -50,7 +57,9 @@ def display_train_info(closest_arrival: datetime):
     print("N Train")
     print("Fort Hamilton Station")
     if closest_arrival:
-        print(f"Arrival Time: {closest_arrival.strftime('%I:%M %p')}")  # Format as HH:MM AM/PM
+        print(
+            f"Arrival Time: {closest_arrival.strftime('%I:%M %p')}"
+        )  # Format as HH:MM AM/PM
     else:
         print("Arrival Time: No upcoming trains")
 
@@ -60,7 +69,9 @@ def main():
     feed = fetch_gtfs_feed(URL)
 
     # Get the closest train arrival
-    closest_arrival = get_closest_train_arrival(feed, TARGET_ROUTE_ID, FORT_HAMILTON_STOP_ID)
+    closest_arrival = get_closest_train_arrival(
+        feed, TARGET_ROUTE_ID, FORT_HAMILTON_STOP_ID
+    )
 
     # Display the train information
     display_train_info(closest_arrival)
