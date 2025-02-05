@@ -27,6 +27,8 @@ WIFI_SSID = os.getenv("WIFI_SSID")
 WIFI_PASSWORD = os.getenv("WIFI_PASSWORD")
 WIFI_AUTH = os.getenv("WIFI_AUTH")  # Options: WEP, WPA, nopass
 
+display.rotation = 1
+
 # Generate WiFi QR Code using WiFi format
 wifi_qr_data = f"WIFI:S:{WIFI_SSID};T:{WIFI_AUTH};P:{WIFI_PASSWORD};;"
 qr = qrcode.make(wifi_qr_data)
