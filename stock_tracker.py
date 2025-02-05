@@ -1,11 +1,15 @@
+import os
 import time
 import requests
+from dotenv import load_dotenv
 from PIL import Image, ImageDraw, ImageFont
 import adafruit_epd.epd as epd
 from adafruit_epd.ssd1680 import Adafruit_SSD1680Z
 import board
 import busio
 import digitalio
+
+load_dotenv()
 
 # Configure SPI and EPD pins
 spi = busio.SPI(board.SCK, MOSI=board.MOSI, MISO=board.MISO)
@@ -24,17 +28,21 @@ display.fill(1)
 display.display()
 
 # Function to fetch stock data
+import requests
+
 def get_stock_price(symbol):
-    url = f"https://query1.finance.yahoo.com/v7/finance/quote?symbols={symbol}"
+    API_KEY = "YOUR_ALPHA_VANTAGE_KEY"  # Replace with your API key
+    url = f"https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol={symbol}&apikey={API_KEY}"
+
     try:
         response = requests.get(url, timeout=5)
-        response.raise_for_status()  # Raise error if request fails
+        response.raise_for_status()
         data = response.json()
 
-        if "quoteResponse" in data and "result" in data["quoteResponse"] and data["quoteResponse"]["result"]:
-            stock = data["quoteResponse"]["result"][0]
-            return stock.get("symbol"), stock.get("regularMarketPrice", 0), stock.get("regularMarketChangePercent", 0)
-    except (requests.RequestException, KeyError, IndexError):
+        if "Global Quote" in data:
+            stock = data["Global Quote"]
+            return stock.get("01. symbol"), float(stock.get("05. price", 0)), float(stock.get("10. change percent", "0%").strip('%'))
+    except (requests.RequestException, KeyError, IndexError, ValueError):
         print("Failed to fetch stock data.")
     return None, None, None
 
