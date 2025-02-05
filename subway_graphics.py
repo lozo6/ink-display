@@ -1,52 +1,58 @@
+# SPDX-FileCopyrightText: 2024 Your Name
+# SPDX-License-Identifier: MIT
+
 from datetime import datetime
+import os
 import requests
 from google.transit import gtfs_realtime_pb2
 from PIL import Image, ImageDraw, ImageFont
 from adafruit_epd.epd import Adafruit_EPD
 
-small_font = ImageFont.truetype(
-    "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 16
-)
+# Load fonts
+small_font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 16)
 medium_font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 20)
-large_font = ImageFont.truetype(
-    "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 24
-)
+large_font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 24)
 
 # RGB Colors
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 
 class Subway_Graphics:
+    """Fetches and displays subway arrival times on an e-ink display."""
+
     def __init__(self, display):
         self.display = display
+        self.api_url = os.getenv("MTA_GTFS_URL", "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-nqrw")
 
-        self._subway_name = None
-        self._station_name = None
-        self._arrival_time = None
+        # Initialize subway info placeholders
+        self._subway_name = "N Subway"
+        self._station_name = "Fort Hamilton Station"
+        self._arrival_time = "Loading..."
         self._time_text = None
 
-    def fetch_subway_data(self):
-        url = "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-nqrw"
-
+    def fetch_gtfs_feed(self):
+        """Fetches GTFS data from MTA API and returns parsed data."""
         try:
-            response = requests.get(url)
-            response.raise_for_status()  # Raise an error for bad status codes
-        except requests.exceptions.RequestException as e:
-            print(f"Failed to fetch feed: {e}")
-            return
-
-        feed = gtfs_realtime_pb2.FeedMessage()
-        try:
+            response = requests.get(self.api_url, timeout=5)
+            response.raise_for_status()
+            feed = gtfs_realtime_pb2.FeedMessage()
             feed.ParseFromString(response.content)
-        except Exception as e:
-            print(f"Failed to parse GTFS feed: {e}")
+            return feed
+        except requests.exceptions.RequestException as e:
+            print(f"Failed to fetch GTFS feed: {e}")
+            return None
+
+    def fetch_subway_data(self):
+        """Extracts the next subway arrival time from GTFS feed."""
+        feed = self.fetch_gtfs_feed()
+        if not feed:
+            self._arrival_time = "No data available"
             return
 
         FORT_HAMILTON_STOP_ID = "N03N"  # Stop ID for northbound N subway at Fort Hamilton
-        TARGET_ROUTE_ID = "N"  # Route ID for the N subway
+        TARGET_ROUTE_ID = "N"
 
         current_time = datetime.now()
-
         closest_arrival = None
 
         for entity in feed.entity:
@@ -61,41 +67,28 @@ class Subway_Graphics:
                                 if closest_arrival is None or arrival_time < closest_arrival:
                                     closest_arrival = arrival_time
 
-        if closest_arrival:
-            self._subway_name = "N subway"
-            self._station_name = "Fort Hamilton Station"
-            self._arrival_time = closest_arrival.strftime('%I:%M %p')
-        else:
-            self._subway_name = "N subway"
-            self._station_name = "Fort Hamilton Station"
-            self._arrival_time = "No upcoming subways"
+        self._arrival_time = closest_arrival.strftime('%I:%M %p') if closest_arrival else "No upcoming subways"
 
     def update_time(self):
+        """Updates the current time display."""
         now = datetime.now()
         self._time_text = now.strftime("%I:%M %p").lstrip("0").replace(" 0", " ")
 
     def update_display(self):
+        """Updates the e-ink display with subway data."""
         self.display.fill(Adafruit_EPD.WHITE)
         image = Image.new("RGB", (self.display.width, self.display.height), color=WHITE)
         draw = ImageDraw.Draw(image)
 
-        # Draw the subway name
+        # Display text
         draw.text((5, 5), self._subway_name, font=medium_font, fill=BLACK)
-
-        # Draw the station name
         draw.text((5, 25), self._station_name, font=small_font, fill=BLACK)
-
-        # Draw the arrival time
         draw.text((5, 50), f"Arrival: {self._arrival_time}", font=large_font, fill=BLACK)
 
-        # Draw the time
-        (font_width, font_height) = medium_font.getsize(self._time_text)
-        draw.text(
-            (self.display.width - font_width - 5, self.display.height - font_height - 5),
-            self._time_text,
-            font=medium_font,
-            fill=BLACK,
-        )
+        # Draw current time at bottom right
+        font_width, font_height = medium_font.getsize(self._time_text)
+        draw.text((self.display.width - font_width - 5, self.display.height - font_height - 5),
+                  self._time_text, font=medium_font, fill=BLACK)
 
         self.display.image(image)
         self.display.display()
