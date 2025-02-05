@@ -14,7 +14,7 @@ rst = digitalio.DigitalInOut(board.D27)
 busy = digitalio.DigitalInOut(board.D17)
 
 # Initialize the Display
-display = Adafruit_SSD1680Z(     # Old eInk Bonnet ssd1680
+display = Adafruit_SSD1680Z(
     122, 250, spi, cs_pin=ecs, dc_pin=dc, sramcs_pin=None, rst_pin=rst, busy_pin=busy,
 )
 

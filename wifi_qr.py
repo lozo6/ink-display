@@ -5,6 +5,7 @@ from PIL import Image, ImageDraw
 import adafruit_epd.epd as epd
 from adafruit_epd.ssd1680 import Adafruit_SSD1680Z
 import board
+import busio
 import digitalio
 
 load_dotenv()
@@ -17,7 +18,9 @@ rst = digitalio.DigitalInOut(board.D27)
 busy = digitalio.DigitalInOut(board.D17)
 
 # Initialize the SSD1680Z e-ink display
-display = Adafruit_SSD1680Z(250, 122, spi, cs_pin=ecs, dc_pin=dc, rst_pin=rst, busy_pin=busy)
+display = Adafruit_SSD1680Z(
+    122, 250, spi, cs_pin=ecs, dc_pin=dc, sramcs_pin=None, rst_pin=rst, busy_pin=busy,
+)
 
 # WiFi credentials (Modify these)
 WIFI_SSID = os.getenv("WIFI_SSID")
