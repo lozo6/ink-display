@@ -1,6 +1,6 @@
 import time
 from display_manager import DisplayManager
-from mta_bus_graphics import MTABusGraphics
+from bus_graphics import BusGraphics
 
 # Initialize the e-ink display
 display_manager = DisplayManager()

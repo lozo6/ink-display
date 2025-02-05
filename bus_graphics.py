@@ -16,7 +16,7 @@ large_font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bol
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 
-class MTABusGraphics:
+class BusGraphics:
     """Fetches and displays MTA bus arrival times on an e-ink display."""
 
     def __init__(self, display):
