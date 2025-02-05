@@ -31,7 +31,7 @@ display.display()
 import requests
 
 def get_stock_price(symbol):
-    API_KEY = "YOUR_ALPHA_VANTAGE_KEY"  # Replace with your API key
+    API_KEY = os.getenv("ALPHAVANTAGE_API_KEY")
     url = f"https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol={symbol}&apikey={API_KEY}"
 
     try:
@@ -52,8 +52,10 @@ def display_stock(symbol):
     stock_symbol, price, change_percent = get_stock_price(symbol)
 
     if stock_symbol:
-        # Create an image buffer for the SSD1680Z
-        image = Image.new("1", (display.width, display.height), 255)
+
+        display.rotation = 3
+
+        image = Image.new("1", (display.width, display.height), 255).convert("L")
         draw = ImageDraw.Draw(image)
 
         # Load font
