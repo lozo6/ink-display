@@ -1,4 +1,3 @@
-import os
 import requests
 from datetime import datetime, timezone
 from PIL import Image, ImageDraw, ImageFont
@@ -16,10 +15,10 @@ BLACK = (0, 0, 0)
 class BusGraphics:
     """Fetches and displays MTA bus arrival times on an e-ink display."""
 
-    def __init__(self, display):
+    def __init__(self, display, api_key):
         self.display = display
         self.api_url = "http://bustime.mta.info/api/siri/stop-monitoring.json"
-        self.api_key = os.getenv("MTA_BUS_TOKEN")
+        self.api_key = api_key
         self.stop_id = "301623"
         self._bus_name = "B16 Bus"
         self._arrival_time = "Loading..."
@@ -36,8 +35,6 @@ class BusGraphics:
         except requests.exceptions.HTTPError as e:
             if response.status_code == 401:
                 print("Error 401: Unauthorized - Check your API key.")
-            elif response.status_code == 403:
-                print("Error 403: Forbidden - API key may not have access.")
             else:
                 print(f"HTTP Error: {e}")
             self._arrival_time = "No data available"

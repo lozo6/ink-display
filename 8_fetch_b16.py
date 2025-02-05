@@ -1,6 +1,11 @@
 import time
+from dotenv imprort load_dotenv
 from display_manager import DisplayManager
 from bus_graphics import BusGraphics
+
+# Load environment variables
+load_dotenv()
+ALPHA_VANTAGE_API_KEY = os.getenv("ALPHAVANTAGE_API_KEY")
 
 # Initialize the e-ink display
 display_manager = DisplayManager()
