@@ -1,5 +1,4 @@
 # SPDX-FileCopyrightText: 2020 Melissa LeBlanc-Williams for Adafruit Industries
-#
 # SPDX-License-Identifier: MIT
 
 """
@@ -10,62 +9,46 @@ weather for your location... and display it on a eInk Bonnet!
 import time
 import urllib.request
 import urllib.parse
-import digitalio
-import busio
-import board
-from adafruit_epd.ssd1675 import Adafruit_SSD1675
-from adafruit_epd.ssd1680 import Adafruit_SSD1680
-from adafruit_epd.ssd1680 import Adafruit_SSD1680Z
+import os
+from dotenv import load_dotenv
+from display_manager import DisplayManager
 from weather_graphics import Weather_Graphics
 
-spi = busio.SPI(board.SCK, MOSI=board.MOSI, MISO=board.MISO)
-ecs = digitalio.DigitalInOut(board.CE0)
-dc = digitalio.DigitalInOut(board.D22)
-rst = digitalio.DigitalInOut(board.D27)
-busy = digitalio.DigitalInOut(board.D17)
+# Load environment variables
+load_dotenv()
+OPEN_WEATHER_TOKEN = os.getenv("OPEN_WEATHER_TOKEN")
 
-# You'll need to get a token from openweathermap.org, looks like:
-# 'b6907d289e10d714a6e88b30761fae22'
-OPEN_WEATHER_TOKEN = "04035f801b9bb9a9757a6378dbbe7444"
-
-# Use cityname, country code where countrycode is ISO3166 format.
-# E.g. "New York, US" or "London, GB"
+# Weather API setup
 LOCATION = "East Brunswick, US"
 DATA_SOURCE_URL = "http://api.openweathermap.org/data/2.5/weather"
 
-if len(OPEN_WEATHER_TOKEN) == 0:
+if not OPEN_WEATHER_TOKEN:
     raise RuntimeError(
-        "You need to set your token first. If you don't already have one, you can register for a free account at https://home.openweathermap.org/users/sign_up"
+        "You need to set your OPEN_WEATHER_TOKEN in .env. Register at https://home.openweathermap.org/users/sign_up"
     )
 
-# Set up where we'll be fetching data from
 params = {"q": LOCATION, "appid": OPEN_WEATHER_TOKEN}
 data_source = DATA_SOURCE_URL + "?" + urllib.parse.urlencode(params)
 
-# Initialize the Display
-display = Adafruit_SSD1680Z(     # New Bonnet ssd1680z [GDEY0213B74]
-#display = Adafruit_SSD1680(     # Old eInk Bonnet ssd1680
-#display = Adafruit_SSD1675(   # Older eInk Bonnet ssd1675
-    122, 250, spi, cs_pin=ecs, dc_pin=dc, sramcs_pin=None, rst_pin=rst, busy_pin=busy,
-#    120, 250, spi, cs_pin=ecs, dc_pin=dc, sramcs_pin=None, rst_pin=rst, busy_pin=busy,
-)
+# Initialize the e-ink display
+display_manager = DisplayManager()
+display = display_manager.get_display()
 
-display.rotation = 3
-
+# Initialize Weather Graphics
 gfx = Weather_Graphics(display, am_pm=True, celsius=False)
 weather_refresh = None
 
 while True:
-    # only query the weather every 10 minutes (and on first run)
+    # Query weather every 10 minutes
     if (not weather_refresh) or (time.monotonic() - weather_refresh) > 600:
         response = urllib.request.urlopen(data_source)
         if response.getcode() == 200:
-            value = response.read()
-            print("Response is", value)
-            gfx.display_weather(value)
+            weather_data = response.read()
+            print("Weather Response:", weather_data)
+            gfx.display_weather(weather_data)
             weather_refresh = time.monotonic()
         else:
-            print("Unable to retrieve data at {}".format(url))
+            print("Failed to retrieve weather data")
 
     gfx.update_time()
-    time.sleep(300)  # wait 5 minutes before updating anything again
+    time.sleep(300)  # Update time every 5 minutes
