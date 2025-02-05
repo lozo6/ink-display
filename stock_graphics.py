@@ -15,7 +15,7 @@ class Stock_Graphics:
         self.api_key = api_key
         self.image = Image.new("1", (display.width, display.height), 255).convert("L")
         self.draw = ImageDraw.Draw(self.image)
-        self.font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 16)
+        self.font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 20)
 
     def get_stock_price(self, symbol):
         """Fetch stock price from Alpha Vantage API."""
