@@ -50,7 +50,7 @@ display = Adafruit_SSD1680Z(     # New Bonnet ssd1680z [GDEY0213B74]
 #    120, 250, spi, cs_pin=ecs, dc_pin=dc, sramcs_pin=None, rst_pin=rst, busy_pin=busy,
 )
 
-display.rotation = 1
+display.rotation = 3
 
 gfx = Weather_Graphics(display, am_pm=True, celsius=False)
 weather_refresh = None
