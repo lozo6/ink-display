@@ -1,8 +1,5 @@
-certifi==2024.12.14
-charset-normalizer==3.4.1
-gtfs-realtime-bindings==1.0.0
-idna==3.10
-protobuf==5.29.3
-python-dotenv==1.0.1
-requests==2.32.3
-urllib3==2.3.0
+requests==2.31.0
+protobuf==4.24.3
+gtfs-realtime-bindings==0.0.5
+python-dotenv==1.0.0
+qrcode==7.4.2
