@@ -1,5 +1,5 @@
 import time
-from dotenv imprort load_dotenv
+from dotenv import load_dotenv
 from display_manager import DisplayManager
 from bus_graphics import BusGraphics
 
