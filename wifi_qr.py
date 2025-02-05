@@ -10,9 +10,9 @@ import digitalio
 load_dotenv()
 
 # Configure SPI and EPD pins
-spi = board.SPI()
+spi = busio.SPI(board.SCK, MOSI=board.MOSI, MISO=board.MISO)
 ecs = digitalio.DigitalInOut(board.CE0)
-dc = digitalio.DigitalInOut(board.D25)
+dc = digitalio.DigitalInOut(board.D22)
 rst = digitalio.DigitalInOut(board.D27)
 busy = digitalio.DigitalInOut(board.D17)
 
