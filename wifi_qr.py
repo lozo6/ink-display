@@ -35,7 +35,7 @@ qr = qrcode.make(wifi_qr_data)
 qr = qr.resize((100, 100), Image.Resampling.LANCZOS)
 
 # Create an image buffer
-image = Image.new("1", (display.width, display.height), 255)
+image = Image.new("1", (display.width, display.height), 255).convert("L")
 draw = ImageDraw.Draw(image)
 
 # Paste QR code onto display
