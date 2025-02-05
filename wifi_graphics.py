@@ -33,4 +33,3 @@ class Wifi_Graphics:
         # Update e-ink display
         self.display.image(self.image)
         self.display.display()
-        print("WiFi QR Code displayed!")

@@ -27,6 +27,7 @@ display.rotation = 3
 ALPHA_VANTAGE_API_KEY = os.getenv("ALPHAVANTAGE_API_KEY")
 
 # Create Stock_Graphics instance and display stock data
-gfx = Stock_Graphics(display, ALPHA_VANTAGE_API_KEY)
-stock_ticker = "NVDA"  # Change this to any stock symbol you want
-gfx.display_stock(stock_ticker)
+while True:
+    gfx = Stock_Graphics(display, ALPHA_VANTAGE_API_KEY)
+    stock_ticker = "NVDA"  # Change this to any stock symbol you want
+    gfx.display_stock(stock_ticker)

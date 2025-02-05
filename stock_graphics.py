@@ -44,6 +44,5 @@ class Stock_Graphics:
             # Update e-ink display
             self.display.image(self.image)
             self.display.display()
-            print(f"Stock {stock_symbol} displayed!")
         else:
             print("Failed to fetch stock data.")
