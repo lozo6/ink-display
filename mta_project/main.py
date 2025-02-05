@@ -18,7 +18,7 @@ display = Adafruit_SSD1680Z(
     122, 250, spi, cs_pin=ecs, dc_pin=dc, sramcs_pin=None, rst_pin=rst, busy_pin=busy,
 )
 
-display.rotation = 1
+display.rotation = 3
 
 train_graphics = Train_Graphics(display)
 
