@@ -66,7 +66,7 @@ display.rotation = 3
 
 # ---
 
-image = Image.open("blinka.png")
+image = Image.open("images/blinka.png")
 
 # Scale the image to the smaller screen dimension
 image_ratio = image.width / image.height
