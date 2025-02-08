@@ -28,8 +28,8 @@ class Wifi_Graphics:
         qr = self.generate_qr(ssid, password, auth)
 
         # Draw the text "Connect to\nInternet" on the left side
-        self.draw.text((10, 10), "Connect to", font=font, fill=0)
-        self.draw.text((10, 30), "Internet", font=font, fill=0)
+        self.draw.text((10, 30), "Connect to", font=font, fill=0)
+        self.draw.text((15, 50), "Internet:", font=font, fill=0)
 
         # Paste the QR code next to the text (e.g., at position (90, 10))
         self.image.paste(qr, (140, 10))
