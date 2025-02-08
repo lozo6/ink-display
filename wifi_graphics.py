@@ -1,6 +1,9 @@
 import qrcode
 from PIL import Image, ImageDraw, ImageFont
 
+font = ImageFont.truetype(
+    "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 20)
+
 
 class Wifi_Graphics:
     """Handles QR code generation and display for WiFi credentials on e-ink display."""
@@ -25,11 +28,11 @@ class Wifi_Graphics:
         qr = self.generate_qr(ssid, password, auth)
 
         # Draw the text "Connect to\nInternet" on the left side
-        self.draw.text((10, 10), "Connect to", font=self.font, fill=0)
-        self.draw.text((10, 30), "Internet", font=self.font, fill=0)
+        self.draw.text((10, 10), "Connect to", font=font, fill=0)
+        self.draw.text((10, 30), "Internet", font=font, fill=0)
 
         # Paste the QR code next to the text (e.g., at position (90, 10))
-        self.image.paste(qr, (90, 10))
+        self.image.paste(qr, (100, 10))
 
         # Update e-ink display
         self.display.image(self.image)
