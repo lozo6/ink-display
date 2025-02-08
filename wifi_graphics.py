@@ -13,7 +13,6 @@ class Wifi_Graphics:
         self.image = Image.new(
             "1", (display.width, display.height), 255).convert("L")
         self.draw = ImageDraw.Draw(self.image)
-        self.font = ImageFont.load_default()
 
     def generate_qr(self, ssid, password, auth):
         """Generates a WiFi QR code based on credentials."""
