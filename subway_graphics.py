@@ -2,6 +2,7 @@ from datetime import datetime
 import os
 import requests
 from google.transit import gtfs_realtime_pb2
+from PIL import Image, ImageDraw, ImageFont
 
 # Load fonts
 small_font = ImageFont.truetype(
