@@ -2,7 +2,7 @@ import qrcode
 from PIL import Image, ImageDraw, ImageFont
 
 font = ImageFont.truetype(
-    "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 20)
+    "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 16)
 
 
 class Wifi_Graphics:
