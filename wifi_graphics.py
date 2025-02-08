@@ -29,7 +29,7 @@ class Wifi_Graphics:
         self.draw.text((10, 30), "Connect to", font=font, fill=0)
         self.draw.text((15, 50), "Internet:", font=font, fill=0)
 
-        self.image.paste(qr, (125, 0))
+        self.image.paste(qr, (125, -10))
 
         # Update e-ink display
         self.display.image(self.image)
