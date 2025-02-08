@@ -32,7 +32,7 @@ class Wifi_Graphics:
         self.draw.text((10, 30), "Internet", font=font, fill=0)
 
         # Paste the QR code next to the text (e.g., at position (90, 10))
-        self.image.paste(qr, (120, 10))
+        self.image.paste(qr, (140, 10))
 
         # Update e-ink display
         self.display.image(self.image)
