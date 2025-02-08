@@ -1,10 +1,5 @@
-# SPDX-FileCopyrightText: 2024 Your Name
-# SPDX-License-Identifier: MIT
-
 import qrcode
 from PIL import Image, ImageDraw, ImageFont
-import adafruit_epd.epd as epd
-from adafruit_epd.ssd1680 import Adafruit_SSD1680Z
 
 
 class Wifi_Graphics:

@@ -1,11 +1,6 @@
-# SPDX-FileCopyrightText: 2024 Your Name
-# SPDX-License-Identifier: MIT
-
 import os
 import requests
 from PIL import Image, ImageDraw, ImageFont
-import adafruit_epd.epd as epd
-from adafruit_epd.ssd1680 import Adafruit_SSD1680Z
 
 
 class Stock_Graphics:
@@ -14,7 +9,8 @@ class Stock_Graphics:
     def __init__(self, display, api_key):
         self.display = display
         self.api_key = api_key
-        self.image = Image.new("1", (display.width, display.height), 255).convert("L")
+        self.image = Image.new(
+            "1", (display.width, display.height), 255).convert("L")
         self.draw = ImageDraw.Draw(self.image)
         self.font = ImageFont.truetype(
             "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 20
@@ -45,7 +41,8 @@ class Stock_Graphics:
 
         if stock_symbol:
             self.draw.text((10, 10), f"{stock_symbol}", font=self.font, fill=0)
-            self.draw.text((10, 40), f"Price: ${price:.2f}", font=self.font, fill=0)
+            self.draw.text(
+                (10, 40), f"Price: ${price:.2f}", font=self.font, fill=0)
             self.draw.text(
                 (10, 70), f"Change: {change_percent:.2f}%", font=self.font, fill=0
             )

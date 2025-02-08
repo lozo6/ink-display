@@ -1,18 +1,14 @@
-# SPDX-FileCopyrightText: 2024 Your Name
-# SPDX-License-Identifier: MIT
-
 from datetime import datetime
 import os
 import requests
 from google.transit import gtfs_realtime_pb2
-from PIL import Image, ImageDraw, ImageFont
-from adafruit_epd.epd import Adafruit_EPD
 
 # Load fonts
 small_font = ImageFont.truetype(
     "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 16
 )
-medium_font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 20)
+medium_font = ImageFont.truetype(
+    "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 20)
 large_font = ImageFont.truetype(
     "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 24
 )
@@ -91,12 +87,14 @@ class Subway_Graphics:
     def update_time(self):
         """Updates the current time display."""
         now = datetime.now()
-        self._time_text = now.strftime("%I:%M %p").lstrip("0").replace(" 0", " ")
+        self._time_text = now.strftime(
+            "%I:%M %p").lstrip("0").replace(" 0", " ")
 
     def update_display(self):
         """Updates the e-ink display with subway data."""
         self.display.fill(Adafruit_EPD.WHITE)
-        image = Image.new("RGB", (self.display.width, self.display.height), color=WHITE)
+        image = Image.new("RGB", (self.display.width,
+                          self.display.height), color=WHITE)
         draw = ImageDraw.Draw(image)
 
         # Display text

@@ -1,7 +1,3 @@
-# SPDX-FileCopyrightText: 2020 Melissa LeBlanc-Williams for Adafruit Industries
-#
-# SPDX-License-Identifier: MIT
-
 from datetime import datetime
 import json
 from PIL import Image, ImageDraw, ImageFont
@@ -10,7 +6,8 @@ from adafruit_epd.epd import Adafruit_EPD
 small_font = ImageFont.truetype(
     "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 16
 )
-medium_font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 20)
+medium_font = ImageFont.truetype(
+    "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 20)
 large_font = ImageFont.truetype(
     "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 24
 )
@@ -93,12 +90,14 @@ class Weather_Graphics:
 
     def update_time(self):
         now = datetime.now()
-        self._time_text = now.strftime("%I:%M %p").lstrip("0").replace(" 0", " ")
+        self._time_text = now.strftime(
+            "%I:%M %p").lstrip("0").replace(" 0", " ")
         self.update_display()
 
     def update_display(self):
         self.display.fill(Adafruit_EPD.WHITE)
-        image = Image.new("RGB", (self.display.width, self.display.height), color=WHITE)
+        image = Image.new("RGB", (self.display.width,
+                          self.display.height), color=WHITE)
         draw = ImageDraw.Draw(image)
 
         # Draw the Icon
