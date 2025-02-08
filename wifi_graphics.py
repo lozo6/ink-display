@@ -19,7 +19,7 @@ class Wifi_Graphics:
         wifi_qr_data = f"WIFI:S:{ssid};T:{auth};P:{password};;"
         qr = qrcode.make(wifi_qr_data)
         # Resize for e-ink
-        qr = qr.resize((130, 130), Image.Resampling.LANCZOS)
+        qr = qr.resize((135, 135), Image.Resampling.LANCZOS)
         return qr
 
     def display_qr(self, ssid, password, auth):
