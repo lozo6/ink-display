@@ -27,7 +27,7 @@ class Wifi_Graphics:
         qr = self.generate_qr(ssid, password, auth)
 
         self.draw.text((10, 30), "Connect to", font=font, fill=0)
-        self.draw.text((10, 50), f"{ssid}:", font=font, fill=0)
+        self.draw.text((10, 50), f"Internet:", font=font, fill=0)
 
         self.image.paste(qr, (120, -10))
 
