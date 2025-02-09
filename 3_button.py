@@ -2,7 +2,7 @@ import digitalio
 import busio
 import board
 from adafruit_epd.epd import Adafruit_EPD
-from adafruit_epd.ssd1680 import Adafruit_SSD1680
+from adafruit_epd.ssd1680 import Adafruit_SSD1680Z
 
 # create the spi device and pins we will need
 spi = busio.SPI(board.SCK, MOSI=board.MOSI, MISO=board.MISO)
@@ -12,7 +12,7 @@ rst = digitalio.DigitalInOut(board.D27)
 busy = digitalio.DigitalInOut(board.D17)
 srcs = None
 
-display = Adafruit_SSD1680(
+display = Adafruit_SSD1680Z(
     122,
     250,  # 2.13" HD Tri-color or mono display
     spi,
@@ -29,8 +29,8 @@ down_button = digitalio.DigitalInOut(board.D6)
 down_button.switch_to_input()  # Use pull-up resistor
 
 while True:
-    if not digitalio.DigitalInOut(board.D5).value:
+    if not up_button.value:
         print("D5 Button Pressed")
 
-    if not digitalio.DigitalInOut(board.D6).value:
+    if not down_button.value:
         print("D6 Button Pressed")
