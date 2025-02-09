@@ -62,7 +62,7 @@ display = Adafruit_SSD1680Z(
 # display.set_black_buffer(1, True)
 # display.set_color_buffer(1, True)
 
-display.rotation = 3
+display.rotation = 1
 
 # ---
 

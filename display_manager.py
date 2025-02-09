@@ -7,7 +7,7 @@ from adafruit_epd.ssd1680 import Adafruit_SSD1680Z
 class DisplayManager:
     """Manages SPI and e-ink display initialization for all modules."""
 
-    def __init__(self, rotation=3):
+    def __init__(self, rotation=1):
         # Configure SPI and EPD pins
         self.spi = busio.SPI(board.SCK, MOSI=board.MOSI, MISO=board.MISO)
         self.ecs = digitalio.DigitalInOut(board.CE0)

@@ -14,7 +14,7 @@ srcs = None
 
 display = Adafruit_SSD1680Z(
     122,
-    250,  # 2.13" HD Tri-color or mono display
+    250,
     spi,
     cs_pin=ecs,
     dc_pin=dc,
@@ -26,7 +26,7 @@ display = Adafruit_SSD1680Z(
 up_button = digitalio.DigitalInOut(board.D5)
 up_button.switch_to_input()
 down_button = digitalio.DigitalInOut(board.D6)
-down_button.switch_to_input()  # Use pull-up resistor
+down_button.switch_to_input()
 
 while True:
     if not up_button.value:
