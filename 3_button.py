@@ -6,11 +6,11 @@ from adafruit_epd.ssd1680 import Adafruit_SSD1680
 
 # create the spi device and pins we will need
 spi = busio.SPI(board.SCK, MOSI=board.MOSI, MISO=board.MISO)
-ecs = digitalio.DigitalInOut(board.D12)
-dc = digitalio.DigitalInOut(board.D11)
-srcs = digitalio.DigitalInOut(board.D10)  # can be None to use internal memory
-rst = digitalio.DigitalInOut(board.D9)  # can be None to not use this pin
-busy = digitalio.DigitalInOut(board.D5)  # can be None to not use this pin
+ecs = digitalio.DigitalInOut(board.CE0)
+dc = digitalio.DigitalInOut(board.D22)
+rst = digitalio.DigitalInOut(board.D27)
+busy = digitalio.DigitalInOut(board.D17)
+srcs = None
 
 display = Adafruit_SSD1680(
     122,
@@ -24,9 +24,9 @@ display = Adafruit_SSD1680(
 )
 
 up_button = digitalio.DigitalInOut(board.D5)
-up_button.switch_to_input(pull=digitalio.Pull.UP)  # Use pull-up resistor
+up_button.switch_to_input()
 down_button = digitalio.DigitalInOut(board.D6)
-down_button.switch_to_input(pull=digitalio.Pull.UP)  # Use pull-up resistor
+down_button.switch_to_input()  # Use pull-up resistor
 
 while True:
     if not digitalio.DigitalInOut(board.D5).value:
