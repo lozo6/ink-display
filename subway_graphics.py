@@ -3,6 +3,7 @@ import os
 import requests
 from google.transit import gtfs_realtime_pb2
 from PIL import Image, ImageDraw, ImageFont
+from adafruit_epd.epd import Adafruit_EPD
 
 # Load fonts
 small_font = ImageFont.truetype(
